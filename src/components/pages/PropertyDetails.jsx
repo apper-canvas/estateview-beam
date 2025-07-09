@@ -10,12 +10,14 @@ import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import { propertyService } from "@/services/api/propertyService";
 import { format } from "date-fns";
+import TourModal from "@/components/molecules/TourModal";
 
 const PropertyDetails = () => {
   const { id } = useParams();
-  const [property, setProperty] = useState(null);
+const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showTourModal, setShowTourModal] = useState(false);
 
   const loadProperty = async () => {
     try {
@@ -178,7 +180,11 @@ const PropertyDetails = () => {
                   </Button>
                 </div>
                 
-                <Button variant="secondary" className="w-full">
+<Button 
+                  variant="secondary" 
+                  className="w-full"
+                  onClick={() => setShowTourModal(true)}
+                >
                   <ApperIcon name="Calendar" size={16} className="mr-2" />
                   Schedule Tour
                 </Button>
@@ -214,8 +220,14 @@ const PropertyDetails = () => {
               </div>
             </Card>
           </motion.div>
-        </div>
+</div>
       </div>
+
+      <TourModal
+        isOpen={showTourModal}
+        onClose={() => setShowTourModal(false)}
+        property={property}
+      />
     </div>
   );
 };
